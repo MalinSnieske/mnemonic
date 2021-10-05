@@ -86,6 +86,16 @@ def delete_account(id):
     del DATABASE["accounts"][account.id]
     return {"message": "Account deleted"}
 
+@app.route("/transactions")
+def get_transactions():
+    transactions = DATABASE["transactions"]
+    output = []
+    for transaction in transactions.values():
+        transaction_data = {'success': transaction.success, 'cashAmount': transaction.cash_amount,
+                            'sourceAccount': transaction.source_account, 'destinationAccount': transaction.destination_account}
+        output.append(transaction_data)
+    return {"transactions": output}
+
 
 @app.route('/transaction/<id>', methods=["POST"])
 def make_transaction(id):
